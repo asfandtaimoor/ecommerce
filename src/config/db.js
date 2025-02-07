@@ -1,17 +1,26 @@
-import mongoose from 'mongoose';
+import mysql from 'mysql';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      // useUnifiedTopology: true,
-    });
-    console.log('Connected to MongoDB');
-  } catch (err) {
-    console.log('Failed to connect to MongoDB', err);
-    process.exit(1);
-  }
+const connectDB = () => {
+  const db = mysql.createConnection({
+    host: process.env.MYSQL_HOST || 'localhost',
+    user: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || 'root',
+    database: process.env.MYSQL_DATABASE || 'ecommerce',
+    port: process.env.MYSQL_PORT || 3306, // Default MySQL port, change if necessary
+  });
+
+  db.connect((err) => {
+    if (err) {
+      console.error('Failed to connect to MySQL', err);
+      process.exit(1);
+    } else {
+      console.log('Connected to MySQL');
+    }
+  });
+
+  return db;
 };
 
 export default connectDB;
