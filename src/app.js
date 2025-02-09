@@ -1,13 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import connectDB from './config/db.js';
+import db from './config/db.js';
 import userRoutes from './routes/users.js';
 
 const app = express();
 const port = 8000;
-
-// Connect to MySQL
-const db = connectDB();
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
